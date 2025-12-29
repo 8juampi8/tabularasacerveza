@@ -19,6 +19,8 @@ const PORT = process.env.PORT || 3003;
 console.log("ENV MP:", !!process.env.TEST_ACCESS_TOKEN);
 console.log("ENV TWILIO:", !!process.env.TWILIO_ACCOUNT_SID);
 
+console.log(process.env.MONGO_URL)
+
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("Base de datos conectada"))
