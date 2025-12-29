@@ -1,0 +1,22 @@
+header {
+    background-color: #171718;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 125px;
+}
+
+footer {
+    background-color: #171718;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+    color: white;
+    font-size: 13px;
+    text-shadow: 2px 2px black;
+}

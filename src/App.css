@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Ubuntu", sans-serif;
+}
+
+main {
+    height: 70vh;
+    background-image: url('/assets/banda.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 80%);
+    height: 100%;
+    width: 100%;
+}
+
+#no-on-phone {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #on-phone {
+        display: none;
+    }
+
+    #no-on-phone {
+        display: block;
+    }
+}

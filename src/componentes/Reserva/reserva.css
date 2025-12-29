@@ -1,0 +1,37 @@
+.reserva {
+    padding: 30px;
+    display: grid;
+    justify-items: center;
+    gap: 30px;
+}
+
+.reserva h2 {
+    font-size: 60px;
+    color: white;
+    text-align: center;
+    text-shadow: 4px 2px orange;
+}
+
+.reserva h3 {
+    font-size: 24px;  
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px black;
+}
+
+.reserva img {
+    border-radius: 50px;
+    width: 270px;
+}
+
+.comenzar-reserva-btn {
+    padding: 15px;
+    text-decoration: none;
+    background-color: orange;
+    border-radius: 999px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid rgb(168, 167, 166);
+    text-shadow: 2px 2px black;
+}
