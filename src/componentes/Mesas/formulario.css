@@ -11,15 +11,15 @@
     padding: 30px;
     border-radius: 40px;
     display: grid;
-    gap: 30px;
+    gap: 50px;
     width: 70%;
 }
 
 .campo {
-    display: flex;
+    display: grid;
     flex-direction: column;
-    justify-content: center;
-    gap: 20px;
+    justify-items: center;
+    gap: 10px;
     color: white;
     font-size: 23px;
 }
@@ -64,9 +64,9 @@ label {
 @media screen and (max-width: 412px) {
   .reserva h2 { font-size: 32px; }
   .reserva h3 { font-size: 18px; }
-  .campo input { font-size: 16px; width: 90%; }
+  .campo input { width: 90%; }
   .campo .form-control { font-size: 16px; width: 100%; }
   .confirmar-reserva-btn {
-    width: 87%;
+    width: 100%;
   }
 }
