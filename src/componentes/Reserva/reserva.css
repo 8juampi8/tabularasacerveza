@@ -37,3 +37,14 @@
     border: 2px solid rgb(168, 167, 166);
     text-shadow: 2px 2px black;
 }
+@media screen and (max-width: 412px) {
+  .reserva h2 { font-size: 32px; }
+  .reserva h3 { font-size: 18px; }
+  .campo { font-size: 18px; }
+  .campo input { font-size: 16px; }
+  .comenzar-reserva-btn,
+  .confirmar-reserva-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

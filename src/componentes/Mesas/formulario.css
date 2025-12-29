@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     color: white;
     font-size: 23px;
 }
@@ -54,9 +54,19 @@ label {
   border-radius: 20px;
   border: 4px solid orange;
   font-size: 18px;
+  width: 98%;
 }
 
 .react-tel-input .flag-dropdown {
   border: 4px solid orange;
   color: black;
+}
+@media screen and (max-width: 412px) {
+  .reserva h2 { font-size: 32px; }
+  .reserva h3 { font-size: 18px; }
+  .campo input { font-size: 16px; width: 90%; }
+  .campo .form-control { font-size: 16px; width: 100%; }
+  .confirmar-reserva-btn {
+    width: 87%;
+  }
 }
