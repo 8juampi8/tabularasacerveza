@@ -6,14 +6,14 @@
 }
 
 .reserva h2 {
-    font-size: 60px;
+    font-size: clamp(28px, 15vw, 60px);
     color: white;
     text-align: center;
     text-shadow: 4px 2px orange;
 }
 
 .reserva h3 {
-    font-size: 24px;  
+    font-size: clamp(16px, 8vw, 24px);  
     color: white;
     text-align: center;
     text-shadow: 2px 2px black;
@@ -21,7 +21,9 @@
 
 .reserva img {
     border-radius: 50px;
-    width: 270px;
+    width: 100%;
+    max-width: 270px;
+    height: auto;
 }
 
 .comenzar-reserva-btn {

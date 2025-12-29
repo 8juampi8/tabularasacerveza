@@ -4,8 +4,14 @@
     font-family: "Ubuntu", sans-serif;
 }
 
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
 main {
-    height: 70vh;
+    height: 100vh;
     background-image: url('/assets/banda.png');
     background-position: center;
     background-repeat: no-repeat;
@@ -14,12 +20,17 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .overlay {
     background-color: rgba(0, 0, 0, 80%);
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #no-on-phone {
@@ -35,3 +46,15 @@ main {
         display: block;
     }
 }
+@media screen and (max-width: 412px) {
+  .reserva h2 { font-size: 32px; }
+  .reserva h3 { font-size: 18px; }
+  .campo { font-size: 18px; }
+  .campo input { font-size: 16px; }
+  .comenzar-reserva-btn,
+  .confirmar-reserva-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
