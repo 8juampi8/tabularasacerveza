@@ -22,7 +22,7 @@ export function Formulario() {
   const pagar = async () => {
     try {
       const { data } = await axios.post(
-        "https://tabularasacerveza.com/generar",
+        "https://tabularasacerveza.vercel.app/generar",
         formData
       );
       window.location.href = data.init_point;

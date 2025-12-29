@@ -80,11 +80,11 @@ app.post("/generar", async (req, res) => {
       external_reference: externalReference,
       back_urls: {
         success:
-          "https://tabularasacerveza.com"
+          "https://tabularasacerveza.vercel.app/success"
       },
       auto_return: "approved",
       notification_url:
-        "https://tabularasacerveza.com/notificar"
+        "https://tabularasacerveza.vercel.app/notificar"
     };
 
     const response = await preferenceClient.create({ body: preference });
