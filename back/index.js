@@ -16,7 +16,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3003;
 
-console.log("ENV MP:", !!process.env.TEST_ACCESS_TOKEN);
+console.log("ENV MP:", !!process.env.ACCESS_TOKEN);
 console.log("ENV TWILIO:", !!process.env.TWILIO_ACCOUNT_SID);
 
 mongoose
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const mpClient = new MercadoPagoConfig({
-  accessToken: process.env.TEST_ACCESS_TOKEN
+  accessToken: process.env.ACCESS_TOKEN
 });
 
 const preferenceClient = new Preference(mpClient);
