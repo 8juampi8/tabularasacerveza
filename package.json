@@ -32,6 +32,7 @@
     "vite": "^7.3.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "nodemon": "^3.1.11"
   }
