@@ -27,23 +27,16 @@ export function Formulario() {
     if (!formData.telefono.trim()) return "El teléfono es obligatorio";
     if (!formData.personas || Number(formData.personas) <= 0)
       return "La cantidad de personas debe ser mayor a 0";
-
     return null;
   };
 
-  const formularioValido =
-  formData.nombre.trim() &&
-  formData.apellido.trim() &&
-  formData.telefono.trim() &&
-  Number(formData.personas) > 0;
-
-
   const pagar = async () => {
-    const anError = validarFormulario();
-    if (anError) {
-      alert(anError);
+    const error = validarFormulario();
+    if (error) {
+      alert(error);
       return;
     }
+
     try {
       setLoading(true);
 
@@ -51,14 +44,21 @@ export function Formulario() {
         "https://tabularasacerveza.vercel.app/generar",
         formData
       );
+
       window.location.href = data.init_point;
     } catch (error) {
       console.error("Error al iniciar el pago", error);
+      alert("Error al iniciar el pago");
     } finally {
       setLoading(false);
     }
   };
 
+  const formularioValido =
+    formData.nombre.trim() !== "" &&
+    formData.apellido.trim() !== "" &&
+    formData.telefono.trim() !== "" &&
+    Number(formData.personas) > 0;
 
   return (
     <section className="overlay formulario">
@@ -70,7 +70,6 @@ export function Formulario() {
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
-            placeholder="Ingresa tu nombre..."
           />
         </div>
 
@@ -81,7 +80,6 @@ export function Formulario() {
             name="apellido"
             value={formData.apellido}
             onChange={handleChange}
-            placeholder="Ingresa tu apellido..."
           />
         </div>
 
@@ -97,11 +95,6 @@ export function Formulario() {
                 telefonoPais: country?.countryCode?.toUpperCase() || "AR"
               })
             }
-            inputProps={{
-              name: "telefono",
-              required: true,
-              className: "form-control"
-            }}
           />
         </div>
 
@@ -112,15 +105,14 @@ export function Formulario() {
             name="personas"
             value={formData.personas}
             onChange={handleChange}
-            placeholder="Ingresa la cantidad..."
           />
         </div>
 
         <button
           type="button"
           className="confirmar-reserva-btn"
-          disabled={!formularioValido || loading}
           onClick={pagar}
+          disabled={!formularioValido || loading}
         >
           {loading ? "Redirigiendo a MercadoPago..." : "Confirmar Reserva"}
         </button>
