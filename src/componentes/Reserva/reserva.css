@@ -6,7 +6,7 @@
 }
 
 .reserva h2 {
-    font-size: clamp(28px, 15vw, 60px);
+    font-size: clamp(36px, 8vw, 60px);
     color: white;
     text-align: center;
     text-shadow: 4px 2px orange;
@@ -38,13 +38,13 @@
     text-shadow: 2px 2px black;
 }
 @media screen and (max-width: 412px) {
-  .reserva h2 { font-size: 32px; }
-  .reserva h3 { font-size: 18px; }
+  .reserva h2 { font-size: 42px; }
+  .reserva h3 { font-size: 24px; }
   .campo { font-size: 18px; }
   .campo input { font-size: 16px; }
   .comenzar-reserva-btn,
   .confirmar-reserva-btn {
-    font-size: 16px;
+    font-size: 20px;
     padding: 12px;
   }
 }
