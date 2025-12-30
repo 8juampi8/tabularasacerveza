@@ -12,6 +12,8 @@ export function Formulario() {
     personas: ""
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -21,6 +23,8 @@ export function Formulario() {
 
   const pagar = async () => {
     try {
+      setLoading(true);
+
       const { data } = await axios.post(
         "https://tabularasacerveza.vercel.app/generar",
         formData
@@ -28,6 +32,8 @@ export function Formulario() {
       window.location.href = data.init_point;
     } catch (error) {
       console.error("Error al iniciar el pago", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,7 +98,7 @@ export function Formulario() {
           className="confirmar-reserva-btn"
           onClick={pagar}
         >
-          Confirmar Reserva
+          {loading ? "Redirigiendo a MercadoPago..." : "Confirmar Reserva"}
         </button>
       </form>
     </section>
