@@ -8,7 +8,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon index.js",
+    "serve": "nodemon back/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
@@ -23,6 +23,7 @@
     "libphonenumber-js": "^1.12.33",
     "mercadopago": "^2.11.0",
     "mongoose": "^9.0.2",
+    "mysql2": "^3.16.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-phone-input-2": "^2.15.1",

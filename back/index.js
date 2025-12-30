@@ -3,8 +3,10 @@ const http = require("http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
 const { enviarWhatsappReserva } = require("./whatsapp");
+const mysql = require("mysql2/promise");
+const crypto = require("crypto");
+
 
 const {
   MercadoPagoConfig,
@@ -19,12 +21,19 @@ const PORT = process.env.PORT || 3003;
 console.log("ENV MP:", !!process.env.ACCESS_TOKEN);
 console.log("ENV TWILIO:", !!process.env.TWILIO_ACCOUNT_SID);
 
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("Base de datos conectada"))
-  .catch(console.error);
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: 3306
+});
 
 const app = express();
+
+app.listen(PORT, () => {
+  console.log("Servidor corriendo en puerto", PORT);
+});
 
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
@@ -37,37 +46,41 @@ const mpClient = new MercadoPagoConfig({
 const preferenceClient = new Preference(mpClient);
 const paymentClient = new Payment(mpClient);
 
-const reservaSchema = new mongoose.Schema({
-  externalReference: { type: String, unique: true },
-  nombre: String,
-  apellido: String,
-  telefono: String,
-  telefonoPais: String,
-  personas: Number,
-  paymentId: String,
-  status: { type: String, default: "pending" },
-  paidAmount: Number,
-  totalAmount: Number,
-  createdAt: { type: Date, default: Date.now }
-});
-
-const Reserva = mongoose.model("Reserva", reservaSchema);
-
 app.post("/generar", async (req, res) => {
   try {
     const { nombre, apellido, telefono, telefonoPais, personas } = req.body;
 
-    const externalReference = new mongoose.Types.ObjectId().toString();
+    const externalReference = crypto.randomUUID();
 
-    await Reserva.create({
+    console.log("Valores a insertar:", [
       externalReference,
       nombre,
       apellido,
       telefono,
       telefonoPais,
       personas,
-      totalAmount: 100
-    });
+      100
+    ]);
+
+    const [result] = await db.query(
+      `
+      INSERT INTO reservas
+      (external_reference, nombre, apellido, telefono, telefono_pais, personas, total_amount)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        externalReference,
+        nombre,
+        apellido,
+        telefono,
+        telefonoPais,
+        personas,
+        100
+      ]
+    );
+
+
+    console.log("Resultado INSERT:", result);
 
     const preference = {
       items: [
@@ -118,32 +131,46 @@ app.post("/notificar", async (req, res) => {
       return res.sendStatus(200);
     }
 
-    const reserva = await Reserva.findOneAndUpdate(
-      { externalReference: payment.external_reference },
-      {
-        paymentId: payment.id,
-        status: "approved",
-        paidAmount: payment.transaction_amount
-      },
-      { new: true }
+    const [updateResult] = await db.query(
+      `
+      UPDATE reservas
+      SET payment_id = ?, status = 'approved', paid_amount = ?
+      WHERE external_reference = ?
+      `,
+      [
+        payment.id,
+        payment.transaction_amount,
+        payment.external_reference
+      ]
     );
 
-    if (reserva) {
-      await enviarWhatsappReserva({
-        telefono: reserva.telefono,
-        telefonoPais: reserva.telefonoPais,
-        nombre: reserva.nombre,
-        personas: reserva.personas,
-        numeroReserva: payment.id
-      });
+    if (updateResult.affectedRows === 0) {
+      console.log("No se encontró la reserva");
+      return res.sendStatus(200);
     }
+
+    const [rows] = await db.query(
+      `SELECT * FROM reservas WHERE external_reference = ?`,
+      [payment.external_reference]
+    );
+
+    const reserva = rows[0];
+
+    await enviarWhatsappReserva({
+      telefono: reserva.telefono,
+      telefonoPais: reserva.telefono_pais,
+      nombre: reserva.nombre,
+      personas: reserva.personas,
+      numeroReserva: payment.id
+    });
 
     res.sendStatus(200);
   } catch (error) {
-    console.error(error);
+    console.error("Error en /notificar:", error);
     res.sendStatus(500);
   }
 });
+
 
 
 module.exports = app;
