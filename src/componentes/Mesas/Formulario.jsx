@@ -21,7 +21,29 @@ export function Formulario() {
     });
   };
 
+  const validarFormulario = () => {
+    if (!formData.nombre.trim()) return "El nombre es obligatorio";
+    if (!formData.apellido.trim()) return "El apellido es obligatorio";
+    if (!formData.telefono.trim()) return "El teléfono es obligatorio";
+    if (!formData.personas || Number(formData.personas) <= 0)
+      return "La cantidad de personas debe ser mayor a 0";
+
+    return null;
+  };
+
+  const formularioValido =
+  formData.nombre.trim() &&
+  formData.apellido.trim() &&
+  formData.telefono.trim() &&
+  Number(formData.personas) > 0;
+
+
   const pagar = async () => {
+    const anError = validarFormulario();
+    if (anError) {
+      alert(anError);
+      return;
+    }
     try {
       setLoading(true);
 
@@ -36,6 +58,7 @@ export function Formulario() {
       setLoading(false);
     }
   };
+
 
   return (
     <section className="overlay formulario">
@@ -96,6 +119,7 @@ export function Formulario() {
         <button
           type="button"
           className="confirmar-reserva-btn"
+          disabled={!formularioValido || loading}
           onClick={pagar}
         >
           {loading ? "Redirigiendo a MercadoPago..." : "Confirmar Reserva"}
